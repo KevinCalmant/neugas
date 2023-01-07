@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import type { PropType } from "vue"
 import type { Icons } from "@/utils/types/icons.type"
-import BaseIcon from "@/components/BaseIcon.vue"
+import BaseIcon from "@/components/icons/BaseIcon.vue"
 
 defineProps({
   to: {

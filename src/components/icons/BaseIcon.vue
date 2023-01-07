@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import { computed, defineAsyncComponent } from "vue"
 import type { PropType } from "vue"
-import type { Icons } from "../utils/types/icons.type"
+import type { Icons } from "../../utils/types/icons.type"
 import type { Color, Variant } from "@/utils/types/color.type"
 
 const props = defineProps({

@@ -2,7 +2,7 @@
   <div class="navbar__container">
     <div>
       <div class="navbar__brand">
-        <img src="../assets/logo.svg" alt="Nuegas logo" />
+        <img src="../../assets/logo.svg" alt="Nuegas logo" />
         <h1>Nuegas</h1>
       </div>
       <div class="navbar__menu">
@@ -22,8 +22,8 @@
 
 <script>
 import { defineComponent } from "vue"
-import BaseIcon from "@/components/BaseIcon.vue"
-import AppNavLink from "@/components/AppNavLink.vue"
+import BaseIcon from "@/components/icons/BaseIcon.vue"
+import AppNavLink from "@/components/navigation/AppNavLink.vue"
 
 export default defineComponent({
   components: { AppNavLink, BaseIcon },
