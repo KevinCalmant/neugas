@@ -1,3 +1,75 @@
 @function get-color($color, $variant) {
-  @return map-get(map-get($palette, $color), $variant);
+  @return map-deep-get($palette, $color, $variant);
+}
+
+@function map-deep-get($map, $keys...) {
+  @each $key in $keys {
+    @if not map-has-key($map, $key) {
+      @warn 'Key `#{$_key}` not found in map `#{$_map}`. Will return null';
+    }
+    $map: map-get($map, $key);
+  }
+  @return $map;
+}
+
+@function recursive-map-merge($map1, $map2, $config:() ) {
+  @if (type-of($map1) == map or (type-of($map1) == list and length($map1) == 0)) and (type-of($map2) == map or (type-of($map2) == list and length($map2) == 0)) {
+    $result: $map1;
+    @each $key, $value in $map2 {
+      @if (type-of(map-get($result, $key)) == map and type-of($value) == map) {
+        $result: map-merge($result, ($key: recursive-map-merge(map-get($result, $key), $value)));
+      } @else if (map-get($config, "merge-lists") and type-of(map-get($result, $key)) == list and type-of($value) == list) {
+        $result: map-merge($result, ($key: join(map-get($result, $key), $value)));
+      } @else {
+        $result: map-merge($result, ($key: $value));
+      }
+    }
+    @return $result;
+  } @else {
+    @error "recursive-map-merge() expects parameters to be of type map!";
+    @return null;
+  }
+}
+
+@function plain-button-style($color, $clearer: false) {
+  $hoverColor: 600;
+  @if($clearer) {
+    $hoverColor: 400;
+  }
+  @return (
+          "buttonStyles": (
+                  background-color: get-color($color, 500),
+                  border: 1px solid get-color($color, 500),
+          ),
+          "hover": (
+                  background-color: get-color($color, $hoverColor),
+                  border-color: get-color($color, $hoverColor),
+          ),
+          "active": (
+                  background-color: get-color($color, 700),
+                  border-color: get-color($color, 700),
+          ),
+  );
+}
+
+@function outlined-button-style($color) {
+  @return (
+          "buttonStyles": (
+                  color: get-color($color, 300),
+                  border-color: get-color($color, 300),
+          ),
+          "hover": (
+                  color: get-color($color, 900),
+                  border-color: get-color($color, 900),
+                  svg: (
+                          stroke: get-color($color, 900),
+                  ),
+          ),
+          "svgStyles": (
+                  stroke: get-color($color, 300),
+          ),
+          "active": (
+                  background-color: get-color($color, 200),
+          ),
+  )
 }

@@ -1,5 +1,8 @@
 <template>
-  <div :class="`color-${color} variant-${variant}`" :style="style">
+  <div
+    :class="`color-${color} variant-${variant} color-override`"
+    :style="style"
+  >
     <component :is="dynamicIcon" />
   </div>
 </template>
@@ -51,6 +54,9 @@ $variants: (100, 200, 300, 400, 500, 600, 700, 800, 900);
 @each $color in $colors {
   @each $variant in $variants {
     .color-#{$color}.variant-#{$variant} {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       svg {
         stroke: get-color($color, $variant);
       }

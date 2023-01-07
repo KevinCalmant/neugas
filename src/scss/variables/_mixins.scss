@@ -1,0 +1,11 @@
+@mixin styles-from-map($map) {
+  @each $style, $value in $map {
+    @if (type-of($value) == 'map') {
+      #{$style} {
+        @include styles-from-map($value);
+      }
+    } @else {
+      #{$style}: #{$value};
+    }
+  }
+}
