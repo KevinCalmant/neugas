@@ -5,7 +5,13 @@ import Navbar from "@/components/AppNavbar.vue"
 
 <template>
   <Navbar />
-  <RouterView />
+  <div class="app-container">
+    <RouterView />
+  </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.app-container {
+  padding: 32px;
+}
+</style>

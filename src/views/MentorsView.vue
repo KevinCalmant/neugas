@@ -2,6 +2,6 @@
 
 <template>
   <main>
-    <h1>Hello from Overview</h1>
+    <h1>Hello from Mentors</h1>
   </main>
 </template>
