@@ -6,19 +6,25 @@
     v-bind="$attrs"
     @click="$emit('click', $event)"
   >
-    <p class="v-btn__slot"><slot /></p>
+    <div :class="`v-btn__slot ${!iconOnly ? `v-btn__slot--${position}` : ''}`">
+      <BaseIcon v-if="icon" :icon="'Message'" color="primary" />
+      <p><slot v-if="!iconOnly" /></p>
+    </div>
   </component>
 </template>
 
 <script setup lang="ts">
 import type { PropType } from "vue"
 import type {
+  ButtonPosition,
   ButtonSize,
   ButtonTag,
   ButtonType,
 } from "@/utils/types/buttons.type"
 import { computed } from "vue"
 import type { Color } from "@/utils/types/color.type"
+import type { Icons } from "@/utils/types/icons.type"
+import BaseIcon from "@/components/icons/BaseIcon.vue"
 
 const props = defineProps({
   block: {
@@ -54,15 +60,23 @@ const props = defineProps({
     default: "button",
   },
   icon: {
+    type: String as PropType<Icons>,
+    required: false,
+  },
+  iconOnly: {
     type: Boolean,
     default: false,
+  },
+  position: {
+    type: String as PropType<ButtonPosition>,
+    default: "left",
   },
 })
 
 const buttonClasses = computed(() => {
   return {
     "v-btn": true,
-    [`v-btn--${props.size + (props.icon ? "-icon" : "")}`]: props.size,
+    [`v-btn--${props.size + (props.iconOnly ? "-icon" : "")}`]: props.size,
     [`v-btn--${props.color}`]: props.color,
     "v-btn--block": props.block,
     "v-btn--disabled": props.disabled,
@@ -72,7 +86,7 @@ const buttonClasses = computed(() => {
 })
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 $button-size-map: (
   null: (
     padding: 1rem,
@@ -84,8 +98,12 @@ $button-size-map: (
     flex-direction: row,
     justify-content: center,
     align-items: center,
-    padding: 5px 16px,
+    padding: 5px 10px,
     gap: 10px,
+    "::v-deep svg": (
+      width: 70%,
+      height: 70%,
+    ),
   ),
   "--small-icon": (
     width: 32px,
@@ -97,7 +115,7 @@ $button-size-map: (
     align-items: center,
     padding: 8px,
     gap: 8px,
-    svg: (
+    "::v-deep svg": (
       width: 70%,
       height: 70%,
     ),
@@ -111,6 +129,10 @@ $button-size-map: (
     align-items: center,
     padding: 13px 24px,
     gap: 10px,
+    "::v-deep svg": (
+      width: 80%,
+      height: 80%,
+    ),
   ),
   "--medium-icon": (
     width: 37px,
@@ -122,7 +144,7 @@ $button-size-map: (
     align-items: center,
     padding: 16px,
     gap: 8px,
-    svg: (
+    "::v-deep svg": (
       width: 80%,
       height: 80%,
     ),
@@ -136,7 +158,7 @@ $button-size-map: (
     align-items: center,
     padding: 16px,
     gap: 8px,
-    svg: (
+    "::v-deep svg": (
       width: 80%,
       height: 80%,
     ),
@@ -151,7 +173,7 @@ $button-size-map: (
     align-items: center,
     padding: 16px,
     gap: 8px,
-    svg: (
+    "::v-deep svg": (
       width: 80%,
       height: 80%,
     ),
@@ -226,27 +248,19 @@ $button-default-styles: (
   cursor: not-allowed;
 }
 
-.v-btn--loading {
-  pointer-events: none;
-  position: relative;
+.v-btn__slot {
+  display: flex;
+  width: fit-content;
+  align-items: center;
 
-  .v-btn__slot {
-    color: transparent;
+  &--left {
+    flex-direction: row;
+    gap: 10px;
   }
 
-  &::after {
-    animation: animSpin 0.5s infinite linear;
-    border-radius: 50%;
-    border: 2px solid currentColor;
-    border-right-color: transparent;
-    border-top-color: transparent;
-    content: "";
-    display: block;
-    height: 1em;
-    left: calc(50% - 0.5em);
-    position: absolute;
-    top: calc(50% - 0.5em);
-    width: 1em;
+  &--right {
+    flex-direction: row-reverse;
+    gap: 10px;
   }
 }
 
@@ -264,19 +278,15 @@ $button-default-styles: (
   }
 
   .v-btn#{$type-name} {
-    transition: 0.2s all;
-
     @each $theme-name in $button-theme-names {
       $theme: recursive-map-merge($all, map-get($theme-map, $theme-name));
 
-      .v-btn__slot {
-        svg {
-          @include styles-from-map(map-get($theme, "svgStyles"));
-        }
-      }
-
       &.v-btn#{$theme-name} {
         @include styles-from-map(map-get($theme, "buttonStyles"));
+
+        ::v-deep svg {
+          @include styles-from-map(map-get($theme, "svgStyles"));
+        }
 
         &:hover:not(.v-btn--disabled) {
           @include styles-from-map(map-get($theme, "hover"));

@@ -33,11 +33,12 @@
 
 @function plain-button-style($color, $clearer: false) {
   $hoverColor: 600;
-  @if($clearer) {
+  @if ($clearer) {
     $hoverColor: 400;
   }
   @return (
           "buttonStyles": (
+                  color: white,
                   background-color: get-color($color, 500),
                   border: 1px solid get-color($color, 500),
           ),
@@ -61,7 +62,7 @@
           "hover": (
                   color: get-color($color, 900),
                   border-color: get-color($color, 900),
-                  svg: (
+                  '::v-deep svg': (
                           stroke: get-color($color, 900),
                   ),
           ),

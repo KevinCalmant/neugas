@@ -1,8 +1,5 @@
 <template>
-  <div
-    :class="`color-${color} variant-${variant} color-override`"
-    :style="style"
-  >
+  <div :class="`color-${color} variant-${variant}`" :style="style">
     <component :is="dynamicIcon" />
   </div>
 </template>
