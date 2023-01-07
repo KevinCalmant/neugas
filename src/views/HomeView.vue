@@ -1,7 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import AppGretting from "@/components/AppGretting.vue"
+</script>
 
 <template>
   <main>
-    <h1>Hello from Overview</h1>
+    <AppGretting />
   </main>
 </template>

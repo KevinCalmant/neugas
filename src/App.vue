@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router"
-import Navbar from "@/components/AppNavbar.vue"
+import Navbar from "@/components/navigation/AppNavbar.vue"
 </script>
 
 <template>
@@ -13,5 +13,6 @@ import Navbar from "@/components/AppNavbar.vue"
 <style lang="scss" scoped>
 .app-container {
   padding: 32px;
+  width: 100%;
 }
 </style>

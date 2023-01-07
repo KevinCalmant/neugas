@@ -20,14 +20,8 @@
   </div>
 </template>
 
-<script>
-import { defineComponent } from "vue"
-import BaseIcon from "@/components/icons/BaseIcon.vue"
+<script setup>
 import AppNavLink from "@/components/navigation/AppNavLink.vue"
-
-export default defineComponent({
-  components: { AppNavLink, BaseIcon },
-})
 </script>
 
 <style scoped lang="scss">
@@ -81,7 +75,7 @@ export default defineComponent({
 }
 
 @media (max-width: 640px) {
-  .navbar-container {
+  .navbar__container {
     display: none;
   }
 }
